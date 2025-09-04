@@ -82,9 +82,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
+            /* Alterado de sticky para fixed para o logo não rolar com a página */
+            position: fixed; 
             top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
             z-index: 100;
+            background-color: var(--dark-bg); /* Garante que o fundo não seja transparente ao rolar */
         }
 
         /* Estilo para o logo */
@@ -94,8 +100,6 @@
             height: auto;
             display: block;
             margin: 0 auto;
-            position: sticky;
-            top: 1.5rem;
             z-index: 10;
         }
 
@@ -114,6 +118,8 @@
             flex-direction: column;
             gap: 1.5rem;
             margin-top: 2.5rem;
+            /* Adicionado padding-top para o conteúdo não ficar por baixo do logo fixo */
+            padding-top: 100px;
         }
 
         .main-menu-item {
@@ -1001,7 +1007,7 @@
                     <div class="form-group">
                         <label for="finance-type">Tipo</label>
                         <select id="finance-type">
-                            <option value="expense">Gasto</option>
+                            <option value="expense">Gasto Variável</option>
                             <option value="income">Ganho</option>
                             <option value="fixed">Custo Fixo</option>
                         </select>
@@ -1388,7 +1394,8 @@
             
             // Nova função para limpar todos os dados
             const resetData = () => {
-                if (confirm('Tem certeza que deseja apagar TODOS os dados? Essa ação é irreversível.')) {
+                const confirmed = confirm('Tem certeza que deseja apagar TODOS os dados? Essa ação é irreversível.');
+                if (confirmed) {
                     localStorage.clear();
                     tasks = [];
                     finances = [];
@@ -1946,7 +1953,8 @@
             
             const deleteTask = (id) => {
                 const task = tasks.find(t => t.id === id);
-                if (confirm('Tem certeza que quer apagar essa tarefa? Não tem volta.')) {
+                const confirmed = confirm('Tem certeza que quer apagar essa tarefa? Não tem volta.');
+                if (confirmed) {
                     tasks = tasks.filter(t => t.id !== id);
                     saveData();
                     renderTasks(task.category);
@@ -2003,7 +2011,8 @@
             };
 
             const deleteFinance = (id) => {
-                if (confirm('Tem certeza que quer apagar essa transação?')) {
+                const confirmed = confirm('Tem certeza que quer apagar essa transação?');
+                if (confirmed) {
                     finances = finances.filter(f => f.id !== id);
                     saveData();
                     renderFinances();
@@ -2040,7 +2049,8 @@
             };
 
             const deleteGoal = (id) => {
-                if (confirm('Tem certeza que quer apagar essa meta?')) {
+                const confirmed = confirm('Tem certeza que quer apagar essa meta?');
+                if (confirmed) {
                     goals = goals.filter(g => g.id !== id);
                     saveData();
                     renderGoals();
@@ -2056,7 +2066,8 @@
             };
 
             const deleteCountdown = (id) => {
-                if (confirm('Tem certeza que quer apagar essa contagem regressiva?')) {
+                const confirmed = confirm('Tem certeza que quer apagar essa contagem regressiva?');
+                if (confirmed) {
                     countdowns = countdowns.filter(c => c.id !== id);
                     saveData();
                     renderCountdownsAndHabits();
@@ -2084,7 +2095,8 @@
             };
 
             const deleteHabit = (id) => {
-                 if (confirm('Tem certeza que quer parar de rastrear esse hábito?')) {
+                const confirmed = confirm('Tem certeza que quer parar de rastrear esse hábito?');
+                if (confirmed) {
                     habits = habits.filter(h => h.id !== id);
                     saveData();
                     renderCountdownsAndHabits();
