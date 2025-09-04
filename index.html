@@ -5,68 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo Mundo Odeia Agenda</title>
     <style>
-        /* Paleta de Cores e Estilos aprimorados */
+        /* Paleta de Cores, Estilos e Animações */
         :root {
-            /* Cores para o modo claro */
-            --light-bg: #f5f7fa; /* Fundo suave */
+            --cor-vermelho: #E53935;
+            --cor-laranja: #FB8C00;
+            --cor-amarelo: #FFB300;
+            --cor-verde: #43A047;
+            --cor-azul: #1E88E5;
+            --cor-roxo: #5E35B1;
+
+            /* Temas */
+            --dark-bg: #1c1c24; 
+            --dark-surface: #2a2a35;
+            --dark-border: #444455;
+            --dark-shadow: rgba(0, 0, 0, 0.4);
+            --light-bg: #f9f5f0;
             --light-surface: #ffffff;
-            --light-border: #e0e6ed;
-            --light-shadow: rgba(4, 18, 36, 0.08);
+            --light-border: #e0e0e0;
+            --light-shadow: rgba(0, 0, 0, 0.1);
 
-            /* Cores para o modo escuro */
-            --dark-bg: #111827; /* Dark Blue Gray */
-            --dark-surface: #1e293b;
-            --dark-border: #334155;
-            --dark-shadow: rgba(0, 0, 0, 0.3);
-
-            /* Cores principais */
-            --color-primary: #8b5cf6; /* Indigo vibrante */
-            --color-accent: #22d3ee; /* Cyan para destaque */
-            --color-success: #22c55e;
-            --color-fail: #ef4444;
-            
             /* Cores de texto */
-            --text-on-light: #1c1c1c;
-            --text-on-dark: #e5e7eb;
-            --text-secondary-light: #6b7280;
-            --text-secondary-dark: #9ca3af;
+            --text-on-dark: #f0f0f0;
+            --text-on-light: #212121;
         }
 
-        /* Estilos básicos */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
-        /* Temas */
-        body.light-mode {
-            background-color: var(--light-bg);
-            color: var(--text-on-light);
-        }
-        
         body.dark-mode {
             background-color: var(--dark-bg);
             color: var(--text-on-dark);
         }
+        
+        body.light-mode {
+            background-color: var(--light-bg);
+            color: var(--text-on-light);
+        }
 
-        body.dark-mode .app-bar, body.dark-mode .card, body.dark-mode .modal-content, body.dark-mode .toast,
-        body.dark-mode .calendar-header, body.dark-mode .calendar-grid, body.dark-mode .main-menu-item {
-            background-color: var(--dark-surface);
-            box-shadow: 0 8px 24px var(--dark-shadow);
+        /* Estilos base */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            transition: background-color 0.6s ease, color 0.6s ease;
         }
         
-        body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
-            background-color: #3b4250;
+        /* Tipografia do Título */
+        .app-title-container {
+            position: relative;
+            text-align: center;
+        }
+
+        h1.app-title {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.8rem;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            text-align: center;
             color: var(--text-on-dark);
         }
         
-        body.dark-mode .card-subtitle, body.dark-mode .label, body.dark-mode .calendar-day-name {
-            color: var(--text-secondary-dark);
+        body.light-mode h1.app-title {
+            color: var(--text-on-light);
         }
-
+        
         /* Layout */
         .container {
             max-width: 600px;
@@ -78,74 +78,82 @@
         }
 
         .app-bar {
-            padding: 1rem 1.5rem;
+            padding: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 0 0 16px 16px;
-            box-shadow: 0 4px 12px var(--light-shadow);
             position: sticky;
             top: 0;
             z-index: 100;
-            background-color: var(--light-surface);
-        }
-        
-        .app-bar h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: var(--color-primary);
-            font-weight: 700;
         }
 
         .actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .main-content {
             flex-grow: 1;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
         }
         
         .main-menu {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
         }
-        
+
         .main-menu-item {
-            background-color: var(--light-surface);
-            padding: 1.5rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px var(--light-shadow);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px var(--dark-shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            transition: background-color 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+            color: var(--text-on-dark);
+            -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+        }
+        body.light-mode .main-menu-item {
+             box-shadow: 0 8px 20px var(--light-shadow);
+             color: var(--text-on-light);
+             -webkit-text-stroke: none;
         }
 
         .main-menu-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px var(--light-shadow);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--dark-shadow);
+        }
+        body.light-mode .main-menu-item:hover {
+            box-shadow: 0 15px 30px var(--light-shadow);
         }
 
         .main-menu-item:active {
-            transform: translateY(1px);
+            transform: translateY(2px);
         }
-        
+
+        .main-menu-item.preciso { background-color: var(--cor-vermelho); }
+        .main-menu-item.quero { background-color: var(--cor-laranja); }
+        .main-menu-item.educacao { background-color: var(--cor-amarelo); }
+        .main-menu-item.financas { background-color: var(--cor-verde); }
+        .main-menu-item.metas { background-color: var(--cor-azul); }
+        .main-menu-item.contagem { background-color: var(--cor-roxo); }
+        .main-menu-item.estatisticas { background-color: #616161; }
+
         .main-menu-item h3 {
             margin: 0;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
+
         .main-menu-item svg {
-            color: var(--text-secondary-light);
-            transition: color 0.3s ease;
+            color: white;
+            transition: transform 0.4s ease;
         }
-        body.dark-mode .main-menu-item svg {
-            color: var(--text-secondary-dark);
+        .main-menu-item:hover svg {
+            transform: translateX(5px);
         }
 
         /* Calendar */
@@ -156,96 +164,107 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--light-shadow);
-            background-color: var(--light-surface);
-            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 16px;
+            box-shadow: 0 6px 16px var(--dark-shadow);
+            background-color: var(--dark-surface);
+            transition: background-color 0.6s ease, box-shadow 0.6s ease;
         }
-        
+        body.light-mode .calendar-header {
+             box-shadow: 0 6px 16px var(--light-shadow);
+            background-color: var(--light-surface);
+        }
+
         .calendar-header h2 {
             margin: 0;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-on-light);
-            transition: color 0.4s ease;
-        }
-        body.dark-mode .calendar-header h2 {
-            color: var(--text-on-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: color 0.6s ease;
         }
 
         .calendar-nav button {
             background: none;
             border: none;
-            color: var(--text-on-light);
-            font-size: 1.5rem;
+            font-size: 2rem;
             cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        body.dark-mode .calendar-nav button {
+            transition: color 0.4s ease, transform 0.2s ease;
             color: var(--text-on-dark);
+        }
+        body.light-mode .calendar-nav button {
+            color: var(--text-on-light);
+        }
+        .calendar-nav button:hover {
+            color: var(--cor-laranja);
+            transform: scale(1.1);
         }
 
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-            padding: 1rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 12px var(--light-shadow);
-            background-color: var(--light-surface);
-            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+            border: 2px solid var(--dark-border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.6s ease;
+        }
+        body.light-mode .calendar-grid {
+            border: 2px solid var(--light-border);
         }
         
         .calendar-day-name {
-            font-weight: 600;
-            color: var(--text-secondary-light);
+            font-weight: 700;
+            color: var(--text-on-dark);
+            background-color: #52525b;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        body.light-mode .calendar-day-name {
+            color: var(--text-on-light);
+            background-color: #bdbdbd;
         }
         
         .calendar-day {
             padding: 0.5rem;
-            border-radius: 8px;
-            cursor: pointer;
+            border-right: 1px solid var(--dark-border);
+            border-bottom: 1px solid var(--dark-border);
+            min-height: 60px;
             position: relative;
-            transition: background-color 0.2s, transform 0.2s;
+            background-color: var(--dark-surface);
+            transition: background-color 0.6s ease, border-color 0.6s ease;
         }
-        .calendar-day-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        body.light-mode .calendar-day {
+            background-color: var(--light-surface);
+            border-right: 1px solid var(--light-border);
+            border-bottom: 1px solid var(--light-border);
+        }
+        
+        .calendar-day:nth-child(7n) { border-right: none; }
+        .calendar-day.empty { background-color: transparent; border: none; }
+        
+        .calendar-day-number {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .calendar-day-dots {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 4px;
         }
-        .calendar-day.today .calendar-day-circle {
-            background-color: var(--color-primary);
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 8px rgba(139, 92, 246, 0.4);
-        }
-        .calendar-day:hover .calendar-day-circle {
-            background-color: rgba(139, 92, 246, 0.1);
-            transform: scale(1.1);
-        }
-        body.dark-mode .calendar-day:hover .calendar-day-circle {
-            background-color: rgba(139, 92, 246, 0.2);
-        }
-        .calendar-day.has-task .calendar-day-dot {
-            background-color: var(--color-success);
-        }
+
         .calendar-day-dot {
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .calendar-day.today {
+            background-color: var(--dark-border);
+        }
+        body.light-mode .calendar-day.today {
+            background-color: var(--light-border);
         }
 
         /* Botões */
@@ -253,75 +272,77 @@
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
-            padding: 0.5rem;
+            font-size: 1.25rem;
+            padding: 0.75rem;
             border-radius: 50%;
             transition: background-color 0.2s, transform 0.1s;
         }
 
         .button-icon:hover {
-            background-color: rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.08);
         }
-        body.dark-mode .button-icon:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+        body.light-mode .button-icon:hover {
+            background-color: rgba(0, 0, 0, 0.08);
         }
 
         button.primary {
-            background-color: var(--color-primary);
+            background-color: var(--cor-vermelho);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             border-radius: 9999px;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            gap: 0.75rem;
+            box-shadow: 0 6px 16px rgba(229, 57, 53, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         button.primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229, 57, 53, 0.6);
         }
 
         button.secondary {
-            background-color: var(--light-surface);
-            color: var(--text-on-light);
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            box-shadow: 0 2px 4px var(--light-shadow);
-            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        body.dark-mode button.secondary {
             background-color: var(--dark-surface);
             color: var(--text-on-dark);
-            box-shadow: 0 2px 4px var(--dark-shadow);
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px var(--dark-shadow);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        body.light-mode button.secondary {
+            background-color: var(--light-surface);
+            color: var(--text-on-light);
+            box-shadow: 0 4px 10px var(--light-shadow);
         }
 
         button.secondary:hover {
-            background-color: #f0f0f2;
-            transform: translateY(-1px);
+            background-color: #3b3b4a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px var(--dark-shadow);
         }
-        body.dark-mode button.secondary:hover {
-            background-color: #3b4250;
+        body.light-mode button.secondary:hover {
+            background-color: #f0f0f2;
+            box-shadow: 0 6px 16px var(--light-shadow);
         }
         
         button.danger {
-            background-color: var(--color-fail);
+            background-color: var(--cor-vermelho);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             border-radius: 9999px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(229, 57, 53, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         button.danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229, 57, 53, 0.6);
         }
-
 
         button:active {
             transform: scale(0.98);
@@ -329,72 +350,79 @@
 
         /* Cards */
         .card {
+            background-color: var(--dark-surface);
+            padding: 1.75rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--dark-shadow);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.6s ease;
+        }
+        body.light-mode .card {
             background-color: var(--light-surface);
-            padding: 1.5rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px var(--light-shadow);
-            margin-bottom: 1rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.4s ease;
+            box-shadow: 0 10px 30px var(--light-shadow);
         }
         
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px var(--light-shadow);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--dark-shadow);
         }
-        body.dark-mode .card:hover {
-            box-shadow: 0 12px 28px var(--dark-shadow);
+        body.light-mode .card:hover {
+            box-shadow: 0 15px 40px var(--light-shadow);
         }
         
         .card:active {
-            transform: translateY(1px);
+            transform: translateY(2px);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
             margin: 0;
             word-wrap: break-word;
         }
 
         .card-subtitle {
-            font-size: 0.9rem;
+            font-size: 1rem;
+            color: var(--text-secondary-dark);
+            margin-top: 0.75rem;
+        }
+        body.light-mode .card-subtitle {
             color: var(--text-secondary-light);
-            margin-top: 0.5rem;
         }
 
         .card-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .card.concluida {
-            background-color: rgba(34, 197, 94, 0.1);
-            border: 2px solid var(--color-success);
-        }
-        body.dark-mode .card.concluida {
             background-color: rgba(34, 197, 94, 0.2);
+            border: 2px solid var(--cor-verde);
+        }
+        body.light-mode .card.concluida {
+            background-color: rgba(34, 197, 94, 0.1);
         }
 
         .card.falhou {
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 2px solid var(--color-fail);
-        }
-        body.dark-mode .card.falhou {
             background-color: rgba(239, 68, 68, 0.2);
+            border: 2px solid var(--cor-vermelho);
+        }
+        body.light-mode .card.falhou {
+            background-color: rgba(239, 68, 68, 0.1);
         }
 
         .card-status {
-            font-weight: 600;
+            font-weight: 700;
         }
-        .card-status.concluida { color: var(--color-success); }
-        .card-status.falhou { color: var(--color-fail); }
+        .card-status.concluida { color: var(--cor-verde); }
+        .card-status.falhou { color: var(--cor-vermelho); }
 
         /* Modal */
         .modal-overlay {
@@ -403,14 +431,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
         .modal-overlay.open {
@@ -419,18 +447,18 @@
         }
 
         .modal-content {
-            background-color: var(--light-surface);
-            padding: 1.5rem;
-            border-radius: 16px;
+            background-color: var(--dark-surface);
+            padding: 2rem;
+            border-radius: 20px;
             max-width: 90%;
             width: 500px;
             max-height: 90vh;
             overflow-y: auto;
-            transform: translateY(20px);
-            transition: transform 0.3s ease, background-color 0.4s ease;
+            transform: translateY(30px);
+            transition: transform 0.4s ease, background-color 0.6s ease;
         }
-        body.dark-mode .modal-content {
-            background-color: var(--dark-surface);
+        body.light-mode .modal-content {
+            background-color: var(--light-surface);
         }
 
         .modal-overlay.open .modal-content {
@@ -441,19 +469,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .modal-header h2 {
             margin: 0;
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--cor-vermelho);
         }
 
         .modal-body form {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.5rem;
         }
 
         .form-group {
@@ -462,32 +491,33 @@
         }
 
         label {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
         }
 
         input, textarea, select {
-            background-color: #f0f0f2;
-            color: var(--text-on-light);
-            border: 1px solid var(--light-border);
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
-            background-color: #3b4250;
+            background-color: #3b3b4a;
             color: var(--text-on-dark);
-            border-color: var(--dark-border);
+            border: 2px solid var(--dark-border);
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease;
+        }
+        body.light-mode input, body.light-mode textarea, body.light-mode select {
+            background-color: var(--light-bg);
+            color: var(--text-on-light);
+            border-color: var(--light-border);
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+            border-color: var(--cor-vermelho);
+            box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.4);
         }
-        body.dark-mode input:focus, body.dark-mode textarea:focus, body.dark-mode select:focus {
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5);
+        body.light-mode input:focus, body.light-mode textarea:focus, body.light-mode select:focus {
+            box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.4);
         }
 
         textarea {
@@ -495,7 +525,7 @@
         }
 
         .modal-footer {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
@@ -504,39 +534,39 @@
         /* Toasts e Cards de Notificação */
         #toast-container {
             position: fixed;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2000;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
             width: 90%;
             max-width: 400px;
         }
 
         .toast {
-            background-color: var(--light-surface);
-            color: var(--text-on-light);
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--light-shadow);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInOut 4s forwards;
-            font-weight: 500;
-        }
-        body.dark-mode .toast {
             background-color: var(--dark-surface);
             color: var(--text-on-dark);
-            box-shadow: 0 4px 12px var(--dark-shadow);
+            padding: 1.25rem;
+            border-radius: 16px;
+            box-shadow: 0 6px 16px var(--dark-shadow);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInOut 5s forwards;
+            font-weight: 600;
+        }
+        body.light-mode .toast {
+            background-color: var(--light-surface);
+            color: var(--text-on-light);
+            box-shadow: 0 6px 16px var(--light-shadow);
         }
 
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(20px); }
+            0% { opacity: 0; transform: translateY(30px); }
             10% { opacity: 1; transform: translateY(0); }
             90% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 0; transform: translateY(30px); }
         }
 
         .message-card {
@@ -544,13 +574,14 @@
         }
 
         .message-card h3 {
-            font-size: 1.5rem;
-            margin: 0 0 0.5rem;
-            font-weight: 700;
+            font-size: 2rem;
+            margin: 0 0 0.75rem;
+            font-weight: 900;
+            color: var(--cor-vermelho);
         }
 
         .message-card p {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             margin: 0;
         }
 
@@ -559,59 +590,57 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .stats-card .value {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--color-primary);
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--cor-vermelho);
         }
 
         .stats-card .label {
-            font-size: 1rem;
-            color: var(--text-secondary-light);
-            margin-bottom: 0.5rem;
-        }
-        
-        body.dark-mode .stats-card .label {
+            font-size: 1.1rem;
             color: var(--text-secondary-dark);
+            margin-bottom: 0.75rem;
+        }
+        body.light-mode .stats-card .label {
+            color: var(--text-secondary-light);
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .options-group {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .options-group .option-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--light-surface);
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px var(--light-shadow);
-            transition: background-color 0.4s ease, box-shadow 0.4s ease;
-        }
-        
-        body.dark-mode .options-group .option-item {
             background-color: var(--dark-surface);
-            box-shadow: 0 2px 8px var(--dark-shadow);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px var(--dark-shadow);
+            transition: background-color 0.6s ease, box-shadow 0.6s ease;
+        }
+        body.light-mode .options-group .option-item {
+            background-color: var(--light-surface);
+            box-shadow: 0 4px 12px var(--light-shadow);
         }
 
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 34px;
+            width: 70px;
+            height: 38px;
         }
 
         .toggle-switch input {
@@ -627,23 +656,23 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: var(--text-secondary-light);
-            transition: 0.4s;
-            border-radius: 34px;
-        }
-        body.dark-mode .slider {
             background-color: var(--text-secondary-dark);
+            transition: 0.4s;
+            border-radius: 38px;
+        }
+        body.light-mode .slider {
+            background-color: var(--text-secondary-light);
         }
 
         input:checked + .slider {
-            background-color: var(--color-primary);
+            background-color: var(--cor-verde);
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 30px;
+            width: 30px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -652,49 +681,58 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(32px);
         }
 
         /* Classes de Prioridade e Certeza */
         .badge {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 600;
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
             border-radius: 9999px;
-            margin-right: 0.5rem;
+            margin-right: 0.75rem;
+            letter-spacing: 0.5px;
         }
-        .priority-baixa { background-color: rgba(34, 197, 94, 0.2); color: var(--color-success); }
-        .priority-media { background-color: rgba(255, 196, 0, 0.2); color: #eab308; }
-        .priority-alta { background-color: rgba(239, 68, 68, 0.2); color: var(--color-fail); }
-        .certeza-talvez { background-color: rgba(234, 179, 8, 0.2); color: #eab308; }
-        .certeza-provavelmente { background-color: rgba(99, 102, 241, 0.2); color: #6366f1; }
-        .certeza-certeza { background-color: rgba(34, 197, 94, 0.2); color: var(--color-success); }
+        .priority-baixa { background-color: rgba(34, 197, 94, 0.2); color: var(--cor-verde); }
+        .priority-media { background-color: rgba(255, 196, 0, 0.2); color: var(--cor-amarelo); }
+        .priority-alta { background-color: rgba(239, 68, 68, 0.2); color: var(--cor-vermelho); }
+        .certeza-talvez { background-color: rgba(255, 94, 108, 0.2); color: var(--cor-vermelho); }
+        .certeza-provavelmente { background-color: rgba(99, 102, 241, 0.2); color: var(--cor-azul); }
+        .certeza-certeza { background-color: rgba(34, 197, 94, 0.2); color: var(--cor-verde); }
 
         .finance-grid, .goals-grid, .education-grid, .countdown-grid, .habit-grid {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .finance-summary {
-            background-color: var(--light-surface);
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 12px var(--light-shadow);
-        }
-        body.dark-mode .finance-summary {
             background-color: var(--dark-surface);
-            box-shadow: 0 4px 12px var(--dark-shadow);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 16px var(--dark-shadow);
+        }
+        body.light-mode .finance-summary {
+            background-color: var(--light-surface);
+            box-shadow: 0 6px 16px var(--light-shadow);
         }
 
         .finance-summary h3 {
             margin-top: 0;
+            font-size: 1.25rem;
         }
-        .income { color: var(--color-success); }
-        .expense { color: var(--color-fail); }
-        .balance { color: var(--color-primary); }
+        .income { color: var(--cor-verde); }
+        .expense { color: var(--cor-vermelho); }
+        .balance { color: var(--cor-amarelo); }
+        hr {
+            border-color: var(--dark-border);
+            transition: border-color 0.6s ease;
+        }
+        body.light-mode hr {
+            border-color: var(--light-border);
+        }
 
         .goal-card {
             display: flex;
@@ -702,52 +740,52 @@
         }
         .goal-progress-bar {
             width: 100%;
-            height: 8px;
-            background-color: #d1d1d1;
-            border-radius: 4px;
-            margin-top: 0.5rem;
-        }
-        body.dark-mode .goal-progress-bar {
+            height: 10px;
             background-color: #52525b;
+            border-radius: 5px;
+            margin-top: 0.75rem;
+        }
+        body.light-mode .goal-progress-bar {
+            background-color: #d1d1d1;
         }
         .goal-progress {
             height: 100%;
-            background-color: var(--color-primary);
-            border-radius: 4px;
-            transition: width 0.3s ease;
+            background-color: var(--cor-vermelho);
+            border-radius: 5px;
+            transition: width 0.6s ease;
         }
 
         .countdown-time, .habit-streak {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-top: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--cor-vermelho);
+            margin-top: 1rem;
         }
         .countdown-card .card-subtitle {
             margin-top: 0;
         }
         
         .lucide {
-            color: var(--text-on-light);
-            transition: color 0.3s ease;
-        }
-        body.dark-mode .lucide {
             color: var(--text-on-dark);
+            transition: color 0.4s ease;
+        }
+        body.light-mode .lucide {
+            color: var(--text-on-light);
         }
 
         /* Foco visível para acessibilidade */
         *:focus {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-            border-radius: 8px;
+            outline: 3px solid var(--cor-laranja);
+            outline-offset: 3px;
+            border-radius: 12px;
         }
     </style>
 </head>
-<body class="light-mode">
+<body class="dark-mode">
     <div class="container">
         <!-- AppBar -->
         <header class="app-bar">
-            <h1>Todo Mundo Odeia Agenda</h1>
+            <h1 class="app-title" style="margin: 0 auto;">Todo Mundo Odeia Agenda</h1>
             <div class="actions">
                 <button class="button-icon" aria-label="Configurações" id="openSettingsModal"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-2"><path d="M20 7h-9"/><path d="M14 17h-5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></button>
             </div>
@@ -765,44 +803,46 @@
                 </div>
             </div>
             <div class="calendar-grid">
-                <div class="calendar-day-name">Dom</div>
-                <div class="calendar-day-name">Seg</div>
-                <div class="calendar-day-name">Ter</div>
-                <div class="calendar-day-name">Qua</div>
-                <div class="calendar-day-name">Qui</div>
-                <div class="calendar-day-name">Sex</div>
-                <div class="calendar-day-name">Sáb</div>
+                <div class="calendar-day-name">DOM</div>
+                <div class="calendar-day-name">SEG</div>
+                <div class="calendar-day-name">TER</div>
+                <div class="calendar-day-name">QUA</div>
+                <div class="calendar-day-name">QUI</div>
+                <div class="calendar-day-name">SEX</div>
+                <div class="calendar-day-name">SÁB</div>
             </div>
         </div>
+        
+        <p style="text-align: center; font-style: italic; color: #bdbdbd; padding: 0 1.5rem;">"Eu não ligo para a sua vida, a minha já é bastante complicada!" - Rochelle.</p>
 
         <!-- Conteúdo Principal - Menu Inicial -->
         <main class="main-content" id="main-menu-view">
             <div class="main-menu">
-                <div class="main-menu-item" data-view="preciso">
+                <div class="main-menu-item preciso" data-view="preciso">
                     <h3>Preciso Fazer</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="main-menu-item" data-view="quero">
+                <div class="main-menu-item quero" data-view="quero">
                     <h3>Quero Fazer</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="main-menu-item" data-view="educacao">
+                <div class="main-menu-item educacao" data-view="educacao">
                     <h3>Educação</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="main-menu-item" data-view="financas">
+                <div class="main-menu-item financas" data-view="financas">
                     <h3>Finanças R$</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="main-menu-item" data-view="metas">
+                <div class="main-menu-item metas" data-view="metas">
                     <h3>Metas</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="main-menu-item" data-view="contagem">
+                <div class="main-menu-item contagem" data-view="contagem">
                     <h3>Contagem & Hábitos</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="main-menu-item" data-view="estatisticas">
+                <div class="main-menu-item estatisticas" data-view="estatisticas">
                     <h3>Estatísticas</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
@@ -1189,6 +1229,15 @@
                 }
             };
 
+            // Frases de Rochelle
+            const ROCHELLE_QUOTES = [
+                "Você não sabe o que é trabalhar até ver a minha conta de luz.",
+                "Se você não tem dinheiro, não pode gastar.",
+                "Meu dinheiro é meu dinheiro. O seu dinheiro é o meu dinheiro.",
+                "Onde você pensa que vai com essa roupa?",
+                "Todo dia é um dia novo, e uma nova oportunidade pra você me dar um desgosto."
+            ];
+
             // Funções utilitárias
             const saveData = () => {
                 localStorage.setItem('tmoa-tasks', JSON.stringify(tasks));
@@ -1217,7 +1266,7 @@
                     settings = JSON.parse(storedSettings);
                     applySettings();
                 } else {
-                    settings = { theme: 'light', cuteMode: false, tone: 'padrao', reminders: 0 };
+                    settings = { theme: 'dark', cuteMode: false, tone: 'padrao', reminders: 0 };
                     saveData();
                 }
             };
@@ -1270,7 +1319,7 @@
             const getPhrases = (type, tone) => {
                 const isCute = settings.cuteMode;
                 if (isCute) {
-                    return type === 'success' ? SUCESSO_FOFINHO : FALHA_FOFINHA;
+                    return type === 'success' ? SUCESSO_FOFINHO : FALHA_FOFINHO;
                 }
 
                 if (tone === 'suave') {
@@ -1297,15 +1346,15 @@
 
             const renderCalendar = (date) => {
                 elements.calendar.container.innerHTML = `
-                    <div class="calendar-day-name">Dom</div>
-                    <div class="calendar-day-name">Seg</div>
-                    <div class="calendar-day-name">Ter</div>
-                    <div class="calendar-day-name">Qua</div>
-                    <div class="calendar-day-name">Qui</div>
-                    <div class="calendar-day-name">Sex</div>
-                    <div class="calendar-day-name">Sáb</div>
+                    <div class="calendar-day-name">DOM</div>
+                    <div class="calendar-day-name">SEG</div>
+                    <div class="calendar-day-name">TER</div>
+                    <div class="calendar-day-name">QUA</div>
+                    <div class="calendar-day-name">QUI</div>
+                    <div class="calendar-day-name">SEX</div>
+                    <div class="calendar-day-name">SÁB</div>
                 `;
-                elements.calendar.monthYear.textContent = date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+                elements.calendar.monthYear.textContent = date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }).toUpperCase();
                 
                 const startDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
                 const numDays = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -1315,14 +1364,31 @@
                     elements.calendar.container.innerHTML += `<div class="calendar-day empty"></div>`;
                 }
 
+                const categoryColors = {
+                    'preciso': 'var(--cor-vermelho)',
+                    'quero': 'var(--cor-laranja)',
+                    'educacao': 'var(--cor-amarelo)',
+                    'financas': 'var(--cor-verde)',
+                    'metas': 'var(--cor-azul)',
+                    'contagem': 'var(--cor-roxo)'
+                };
+
                 for (let day = 1; day <= numDays; day++) {
                     const fullDate = new Date(date.getFullYear(), date.getMonth(), day);
                     const isToday = fullDate.getDate() === today.getDate() && fullDate.getMonth() === today.getMonth() && fullDate.getFullYear() === today.getFullYear();
-                    const hasTask = tasks.some(t => t.datetime && new Date(t.datetime).toDateString() === fullDate.toDateString());
+                    
+                    const tasksForDay = tasks.filter(t => t.datetime && new Date(t.datetime).toDateString() === fullDate.toDateString());
+                    let dotHtml = '';
+                    if (tasksForDay.length > 0) {
+                        dotHtml = tasksForDay.map(t => `<div class="calendar-day-dot" style="background-color: ${categoryColors[t.category]};"></div>`).join('');
+                    }
+
                     elements.calendar.container.innerHTML += `
-                        <div class="calendar-day ${isToday ? 'today' : ''} ${hasTask ? 'has-task' : ''}" data-date="${fullDate.toISOString()}">
-                            <span class="calendar-day-circle">${day}</span>
-                            ${hasTask ? '<div class="calendar-day-dot"></div>' : ''}
+                        <div class="calendar-day ${isToday ? 'today' : ''}" data-date="${fullDate.toISOString()}">
+                            <span class="calendar-day-number">${day}</span>
+                            <div class="calendar-day-dots">
+                                ${dotHtml}
+                            </div>
                         </div>
                     `;
                 }
