@@ -87,6 +87,18 @@
             z-index: 100;
         }
 
+        /* Estilo para o logo */
+        .app-logo {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            position: sticky;
+            top: 1.5rem;
+            z-index: 10;
+        }
+
         .actions {
             display: flex;
             gap: 0.75rem;
@@ -129,9 +141,12 @@
         body.light-mode .main-menu-item:hover {
             box-shadow: 0 15px 30px var(--light-shadow);
         }
-
-        .main-menu-item:active {
-            transform: translateY(2px);
+        
+        /* Microinteração de animação no clique */
+        .main-menu-item:active,
+        button:active,
+        .button-icon:active {
+            transform: scale(0.95);
         }
 
         .main-menu-item.preciso { background-color: var(--cor-vermelho); }
@@ -342,10 +357,6 @@
         button.danger:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(229, 57, 53, 0.6);
-        }
-
-        button:active {
-            transform: scale(0.98);
         }
 
         /* Cards */
@@ -572,6 +583,21 @@
         .message-card {
             text-align: center;
         }
+        /* Estilos para o card de boas-vindas */
+        #onboarding-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #onboarding-card.open {
+            opacity: 1;
+            visibility: visible;
+        }
 
         .message-card h3 {
             font-size: 2rem;
@@ -706,7 +732,8 @@
             flex-direction: column;
             gap: 1.5rem;
         }
-
+        
+        /* Nova estilização para finanças */
         .finance-summary {
             background-color: var(--dark-surface);
             padding: 1.5rem;
@@ -726,6 +753,8 @@
         .income { color: var(--cor-verde); }
         .expense { color: var(--cor-vermelho); }
         .balance { color: var(--cor-amarelo); }
+        .fixed-cost { color: var(--cor-roxo); }
+        .variable-cost { color: var(--cor-laranja); }
         hr {
             border-color: var(--dark-border);
             transition: border-color 0.6s ease;
@@ -733,7 +762,18 @@
         body.light-mode hr {
             border-color: var(--light-border);
         }
-
+        
+        .finance-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .finance-list-container h3 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        
         .goal-card {
             display: flex;
             flex-direction: column;
@@ -779,42 +819,44 @@
             outline-offset: 3px;
             border-radius: 12px;
         }
+
+        /* Microinteração de fade-in/out para frases */
+        .quote-fade {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .quote-fade.show {
+            opacity: 1;
+        }
+
+        #onboarding-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #onboarding-card.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
     </style>
 </head>
 <body class="dark-mode">
     <div class="container">
         <!-- AppBar -->
         <header class="app-bar">
-            <h1 class="app-title" style="margin: 0 auto;">Todo Mundo Odeia Agenda</h1>
+            <!-- Substituição do H1 pelo Logo -->
+            <img src="logo.png" alt="Logo Todo Mundo Odeia Agenda" class="app-logo">
             <div class="actions">
                 <button class="button-icon" aria-label="Configurações" id="openSettingsModal"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-2"><path d="M20 7h-9"/><path d="M14 17h-5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></button>
             </div>
         </header>
-
-        <!-- Calendário -->
-        <div class="calendar-container">
-            <div class="calendar-header">
-                <div class="calendar-nav">
-                    <button id="prev-month-btn" aria-label="Mês Anterior">&lt;</button>
-                </div>
-                <h2 id="current-month-year"></h2>
-                <div class="calendar-nav">
-                    <button id="next-month-btn" aria-label="Próximo Mês">&gt;</button>
-                </div>
-            </div>
-            <div class="calendar-grid">
-                <div class="calendar-day-name">DOM</div>
-                <div class="calendar-day-name">SEG</div>
-                <div class="calendar-day-name">TER</div>
-                <div class="calendar-day-name">QUA</div>
-                <div class="calendar-day-name">QUI</div>
-                <div class="calendar-day-name">SEX</div>
-                <div class="calendar-day-name">SÁB</div>
-            </div>
-        </div>
         
-        <p style="text-align: center; font-style: italic; color: #bdbdbd; padding: 0 1.5rem;">"Eu não ligo para a sua vida, a minha já é bastante complicada!" - Rochelle.</p>
-
         <!-- Conteúdo Principal - Menu Inicial -->
         <main class="main-content" id="main-menu-view">
             <div class="main-menu">
@@ -849,6 +891,31 @@
             </div>
         </main>
 
+        <!-- Calendário movido para baixo do menu -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-nav">
+                    <button id="prev-month-btn" aria-label="Mês Anterior">&lt;</button>
+                </div>
+                <h2 id="current-month-year"></h2>
+                <div class="calendar-nav">
+                    <button id="next-month-btn" aria-label="Próximo Mês">&gt;</button>
+                </div>
+            </div>
+            <div class="calendar-grid">
+                <div class="calendar-day-name">DOM</div>
+                <div class="calendar-day-name">SEG</div>
+                <div class="calendar-day-name">TER</div>
+                <div class="calendar-day-name">QUA</div>
+                <div class="calendar-day-name">QUI</div>
+                <div class="calendar-day-name">SEX</div>
+                <div class="calendar-day-name">SÁB</div>
+            </div>
+        </div>
+        
+        <!-- Frase dinâmica -->
+        <p id="dynamic-quote" style="text-align: center; font-style: italic; color: #bdbdbd; padding: 0 1.5rem;"></p>
+        
         <!-- Conteúdo Principal - Visualização de Seção -->
         <main class="main-content" id="section-view" style="display: none;">
             <button class="button-icon" aria-label="Voltar" id="back-to-menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -936,6 +1003,7 @@
                         <select id="finance-type">
                             <option value="expense">Gasto</option>
                             <option value="income">Ganho</option>
+                            <option value="fixed">Custo Fixo</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1076,6 +1144,11 @@
                             <option value="60">1 hora antes</option>
                         </select>
                     </div>
+                    <!-- Nova opção para limpar dados -->
+                    <div class="option-item">
+                        <span>Limpar todos os dados</span>
+                        <button class="danger" id="reset-data-btn">Resetar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1088,6 +1161,16 @@
             <p id="message-card-text"></p>
         </div>
     </div>
+    
+    <!-- Modal de Onboarding -->
+    <div id="onboarding-modal" class="modal-overlay">
+        <div class="modal-content message-card">
+            <h3 style="color: var(--cor-laranja);">Seja bem-vindo(a) à agenda mais sincerona da sua vida.</h3>
+            <p>Aqui não tem motivação tóxica, só a real. Anote suas tarefas e saiba que, no fim do dia, a culpa é sua se não der certo. Bom trabalho.</p>
+            <button class="primary" style="margin-top: 2rem;" id="close-onboarding-modal">Entendido. Vamos falhar!</button>
+        </div>
+    </div>
+
 
     <!-- Contêiner para Toasts (fallback para notificações) -->
     <div id="toast-container"></div>
@@ -1103,7 +1186,16 @@
                 "Cumpriu e ainda tá cedo. O que tá acontecendo?", "Até a preguiça aplaudiu de pé.",
                 "Bonito de ver. Continua antes que passe.", "Selo “não fez mais do que obrigação” aprovado.",
                 "Gabaritou o básico.", "Missão dada é missão cumprida—pelo menos hoje.", "Você entregou. O mundo não acabou.",
-                "Tá liberado um respiro de 5 minutos. Só 5.", "Bom trabalho. Próxima!"
+                "Tá liberado um respiro de 5 minutos. Só 5.", "Bom trabalho. Próxima!",
+                "Você é uma máquina de fazer coisas. Uma máquina enferrujada, mas ainda assim uma máquina.",
+                "Nem me surpreende mais. Não, pera, me surpreendeu sim.",
+                "Achei que ia ser difícil, mas para você foi só… difícil.",
+                "Tá me deixando sem palavras. E olha que eu tenho muitas.",
+                "Um passo de cada vez. Esse foi o primeiro em anos.",
+                "Seu potencial é gigante, mas sua preguiça é maior. Hoje a preguiça perdeu.",
+                "Não é perfeição, é progresso. O seu é lentíssimo, mas é progresso.",
+                "O esforço é real. A recompensa é o silêncio da minha voz na sua cabeça. Por enquanto.",
+                "Não é motivação, é pânico de ser um fracasso. E deu certo!",
             ];
             const FRASES_FALHA = [
                 "Não fez? Surpresa nenhuma.", "Adiou de novo. E amanhã você adia o adiamento?",
@@ -1115,8 +1207,50 @@
                 "Nem começou e já desistiu. Clássico.", "A tarefa chorou e pediu tutela.",
                 "Cê tá colecionando pendências? Álbum quase completo.", "Meta de hoje: falhar com estilo. Concluída.",
                 "No ritmo que vai, termina no próximo milênio.", "A consistência existe: você fura sempre.",
-                "Deixa quieto… não, pera, não deixa. Vai lá e faz.", "A realidade te ligou. Você não atendeu."
+                "Deixa quieto… não, pera, não deixa. Vai lá e faz.", "A realidade te ligou. Você não atendeu.",
+                "E aí, já tem a desculpa pronta? Não se preocupe, eu já tenho a minha.",
+                "Mais um dia, mais uma falha. Quase um esporte olímpico.",
+                "A sua procrastinação é mais organizada que a sua vida.",
+                "Seu cérebro: 'Tá bom, amanhã a gente faz'. Spoiler: não vai.",
+                "A sua lista de 'depois' está mais longa que a do Papai Noel.",
+                "Falhar é humano. Persistir na falha é especialidade sua.",
+                "E a tarefa? Ela ainda está esperando. Não tem coração, é?.",
+                "Parece que o 'Eu faço depois' virou 'Eu falho de novo'.",
+                "Você já considerou que essa agenda pode te odiar de volta?",
+                "Odeio dizer 'eu te avisei', mas..."
             ];
+            const FRASES_INSPIRADORAS_IRONICAS = [
+                "Sua vida tá um caos, mas pelo menos tá registrada aqui.",
+                "Hoje pode ser o dia que você finalmente usa essa agenda.",
+                "A procrastinação é a arte de manter-se atualizado com o ontem.",
+                "Não se sinta mal por falhar. Se sinta mal por estar lendo isso em vez de estar fazendo algo.",
+                "Se você não planejar, a vida planeja por você. E a vida é uma péssima planner.",
+                "Onde há vontade, há um caminho. Ou uma desculpa.",
+                "Seu futuro está sendo escrito agora. Com a caneta da desculpa.",
+                "Não deixe para amanhã o que você pode fazer hoje. Deixe para o mês que vem, quem sabe.",
+                "Não importa o quão devagar você vá, desde que você pare de ir para trás.",
+                "A inspiração existe, mas ela tem que te encontrar trabalhando. Ou, no seu caso, olhando pro nada."
+            ];
+            const FRASES_CONTEXTUAIS_MANHA = [
+                "Bom dia, já começou furando a agenda?",
+                "Hora de acordar e fingir que tem um plano.",
+                "O sol nasceu. Sua força de vontade, nem tanto.",
+                "Café e desculpas. Uma combinação matinal perfeita.",
+                "A cada minuto de sono extra, uma tarefa é esquecida."
+            ];
+            const FRASES_CONTEXTUAIS_TARDE = [
+                "Boa tarde. Ainda dá tempo de fazer algo, prometo que não vou rir (muito).",
+                "O dia tá na metade. Suas tarefas, no zero.",
+                "Já almoçou? É a única coisa que você vai concluir hoje?",
+                "A tarde é uma invenção para adiar o que era para ser feito de manhã."
+            ];
+            const FRASES_CONTEXTUAIS_NOITE = [
+                "Boa noite. O que você deixou para o futuro, que na verdade é amanhã?",
+                "Chegou a hora de se sentir culpado pelas tarefas que não fez.",
+                "Outro dia. Outra lista. Outro fracasso? Veremos.",
+                "Fim do dia. Fim das desculpas. Por enquanto."
+            ];
+            
             const SUCESSO_FOFINHO = [
                 "Boa! Você conseguiu.", "Mandou bem!", "Excelente, continue assim!",
                 "Orgulho de você.", "Top demais.", "Aí sim!", "Mais uma concluída!",
@@ -1152,7 +1286,7 @@
                 sectionActions: document.getElementById('section-actions'),
                 backButton: document.getElementById('back-to-menu'),
                 taskContainers: { preciso: document.getElementById('tasks-preciso-container'), quero: document.getElementById('tasks-quero-container'), educacao: document.getElementById('tasks-educacao-container') },
-                modals: { task: document.getElementById('task-modal'), settings: document.getElementById('settings-modal'), message: document.getElementById('message-modal'), finance: document.getElementById('finance-modal'), goal: document.getElementById('goal-modal'), countdown: document.getElementById('countdown-modal'), habit: document.getElementById('habit-modal') },
+                modals: { task: document.getElementById('task-modal'), settings: document.getElementById('settings-modal'), message: document.getElementById('message-modal'), finance: document.getElementById('finance-modal'), goal: document.getElementById('goal-modal'), countdown: document.getElementById('countdown-modal'), habit: document.getElementById('habit-modal'), onboarding: document.getElementById('onboarding-modal') },
                 modalTitles: { task: document.getElementById('task-modal-title'), message: document.getElementById('message-card-title'), messageText: document.getElementById('message-card-text') },
                 buttons: {
                     openSettings: document.getElementById('openSettingsModal'),
@@ -1166,6 +1300,8 @@
                     openGoal: `<button class="primary" style="width: 100%; margin-top: 1rem;" id="openGoalModal">Adicionar Meta</button>`,
                     openCountdown: `<button class="primary" style="width: 100%; margin-top: 1rem;" id="openCountdownModal">Criar Contagem</button>`,
                     openHabit: `<button class="primary" style="width: 100%; margin-top: 1rem;" id="openHabitModal">Rastrear Hábito</button>`,
+                    closeOnboarding: document.getElementById('close-onboarding-modal'),
+                    resetData: document.getElementById('reset-data-btn')
                 },
                 forms: { task: document.getElementById('task-form'), finance: document.getElementById('finance-form'), goal: document.getElementById('goal-form'), countdown: document.getElementById('countdown-form'), habit: document.getElementById('habit-form') },
                 inputs: {
@@ -1226,7 +1362,8 @@
                 },
                 habits: {
                     container: document.getElementById('habits-container')
-                }
+                },
+                dynamicQuote: document.getElementById('dynamic-quote')
             };
 
             // Frases de Rochelle
@@ -1246,6 +1383,25 @@
                 localStorage.setItem('tmoa-countdowns', JSON.stringify(countdowns));
                 localStorage.setItem('tmoa-habits', JSON.stringify(habits));
                 localStorage.setItem('tmoa-settings', JSON.stringify(settings));
+                localStorage.setItem('tmoa-onboarding', 'true');
+            };
+            
+            // Nova função para limpar todos os dados
+            const resetData = () => {
+                if (confirm('Tem certeza que deseja apagar TODOS os dados? Essa ação é irreversível.')) {
+                    localStorage.clear();
+                    tasks = [];
+                    finances = [];
+                    goals = [];
+                    countdowns = [];
+                    habits = [];
+                    settings = { theme: 'dark', cuteMode: false, tone: 'padrao', reminders: 0 };
+                    applySettings();
+                    renderCalendar(currentCalendarDate);
+                    renderStatsAndExport();
+                    switchView('menu');
+                    showToast('Todos os dados foram resetados. Comece de novo!');
+                }
             };
 
             const loadData = () => {
@@ -1255,6 +1411,7 @@
                 const storedCountdowns = localStorage.getItem('tmoa-countdowns');
                 const storedHabits = localStorage.getItem('tmoa-habits');
                 const storedSettings = localStorage.getItem('tmoa-settings');
+                const hasOnboarded = localStorage.getItem('tmoa-onboarding');
                 
                 if (storedTasks) tasks = JSON.parse(storedTasks);
                 if (storedFinances) finances = JSON.parse(storedFinances);
@@ -1268,6 +1425,10 @@
                 } else {
                     settings = { theme: 'dark', cuteMode: false, tone: 'padrao', reminders: 0 };
                     saveData();
+                }
+
+                if (!hasOnboarded) {
+                    showModal('onboarding-modal');
                 }
             };
             
@@ -1330,6 +1491,43 @@
                     return type === 'success' ? FRASES_TONE_PADRAO_SUCESSO : FRASES_TONE_PADRAO_FALHA;
                 }
             };
+            
+            const showDynamicQuote = () => {
+                const now = new Date();
+                const hours = now.getHours();
+                let quotes;
+                
+                const getFailuresThisWeek = () => {
+                    const weekStart = new Date(now);
+                    weekStart.setDate(now.getDate() - now.getDay());
+                    return tasks.filter(t => t.status === 'falhou' && new Date(t.completedAt) >= weekStart).length;
+                };
+
+                const failureCount = getFailuresThisWeek();
+                if (failureCount > 5) {
+                    quotes = ["Você tá zerando a vida… no hard mode.", "Colecionando fracassos, né? A gente entende.", "Onde está o tutorial de como falhar tanto?"];
+                } else if (hours >= 5 && hours < 12) {
+                    quotes = FRASES_CONTEXTUAIS_MANHA;
+                } else if (hours >= 12 && hours < 18) {
+                    quotes = FRASES_CONTEXTUAIS_TARDE;
+                } else {
+                    quotes = FRASES_CONTEXTUAIS_NOITE;
+                }
+                
+                // Adiciona as frases inspiradoras-irônicas às frases contextuais
+                const allQuotes = quotes.concat(FRASES_INSPIRADORAS_IRONICAS);
+                
+                const randomIndex = Math.floor(Math.random() * allQuotes.length);
+                const newQuote = allQuotes[randomIndex];
+
+                // Aplica a transição de fade
+                elements.dynamicQuote.classList.remove('show');
+                setTimeout(() => {
+                    elements.dynamicQuote.textContent = newQuote;
+                    elements.dynamicQuote.classList.add('show');
+                }, 1000); // tempo do fade-out
+            };
+
 
             const showModal = (modalId) => {
                 document.getElementById(modalId).classList.add('open');
@@ -1459,47 +1657,76 @@
                     <div class="finance-summary card">
                         <h3>Resumo Mensal</h3>
                         <p class="card-subtitle">Entradas: <span class="income" id="finance-income">R$ 0,00</span></p>
-                        <p class="card-subtitle">Saídas: <span class="expense" id="finance-expense">R$ 0,00</span></p>
+                        <p class="card-subtitle">Custos Fixos: <span class="fixed-cost" id="finance-fixed-cost">R$ 0,00</span></p>
+                        <p class="card-subtitle">Gastos Variáveis: <span class="variable-cost" id="finance-variable-cost">R$ 0,00</span></p>
+                        <p class="card-subtitle">Saídas Totais: <span class="expense" id="finance-expense">R$ 0,00</span></p>
                         <hr style="margin: 1rem 0; border: 0; border-top: 1px solid var(--light-border);">
                         <p class="card-subtitle">Saldo: <span class="balance" id="finance-balance">R$ 0,00</span></p>
                     </div>
-                    <div id="finance-list" class="finance-grid"></div>
+                    <div class="finance-list-container">
+                        <h3>Custos Fixos</h3>
+                        <div id="finance-fixed-list" class="finance-grid"></div>
+                        <h3>Gastos Variáveis</h3>
+                        <div id="finance-variable-list" class="finance-grid"></div>
+                    </div>
                 `;
                 
-                const financeListContainer = document.getElementById('finance-list');
+                const financeFixedListContainer = document.getElementById('finance-fixed-list');
+                const financeVariableListContainer = document.getElementById('finance-variable-list');
                 const incomeElement = document.getElementById('finance-income');
                 const expenseElement = document.getElementById('finance-expense');
                 const balanceElement = document.getElementById('finance-balance');
+                const fixedCostElement = document.getElementById('finance-fixed-cost');
+                const variableCostElement = document.getElementById('finance-variable-cost');
 
                 let totalIncome = 0;
                 let totalExpense = 0;
+                let totalFixed = 0;
+                let totalVariable = 0;
 
-                if (finances.length === 0) {
-                    financeListContainer.innerHTML = '<p class="card-subtitle">Nenhuma transação financeira registrada.</p>';
-                } else {
-                    finances.forEach(f => {
-                        if (f.type === 'income') {
-                            totalIncome += f.amount;
-                        } else {
-                            totalExpense += f.amount;
-                        }
-                        financeListContainer.innerHTML += `
-                            <div class="card">
-                                <h3 class="card-title">${f.description}</h3>
-                                <p class="card-subtitle ${f.type === 'income' ? 'income' : 'expense'}">R$ ${f.amount.toFixed(2).replace('.', ',')}</p>
-                                <div class="card-actions" style="margin-top: 0.5rem;">
-                                    <button class="button-icon edit-finance" data-id="${f.id}" aria-label="Editar Transação"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
-                                    <button class="button-icon delete-finance" data-id="${f.id}" aria-label="Excluir Transação"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
-                                </div>
+                const renderFinanceCard = (f) => {
+                    return `
+                        <div class="card">
+                            <h3 class="card-title">${f.description}</h3>
+                            <p class="card-subtitle ${f.type === 'income' ? 'income' : (f.type === 'fixed' ? 'fixed-cost' : 'variable-cost')}">R$ ${f.amount.toFixed(2).replace('.', ',')}</p>
+                            <div class="card-actions" style="margin-top: 0.5rem;">
+                                <button class="button-icon edit-finance" data-id="${f.id}" aria-label="Editar Transação"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+                                <button class="button-icon delete-finance" data-id="${f.id}" aria-label="Excluir Transação"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
                             </div>
-                        `;
+                        </div>
+                    `;
+                };
+
+                const fixedExpenses = finances.filter(f => f.type === 'fixed');
+                const variableExpenses = finances.filter(f => f.type === 'expense');
+
+                if (fixedExpenses.length > 0) {
+                    fixedExpenses.forEach(f => {
+                        totalFixed += f.amount;
+                        financeFixedListContainer.innerHTML += renderFinanceCard(f);
                     });
+                } else {
+                    financeFixedListContainer.innerHTML = '<p class="card-subtitle">Nenhum custo fixo registrado.</p>';
                 }
-                
+
+                if (variableExpenses.length > 0) {
+                    variableExpenses.forEach(f => {
+                        totalVariable += f.amount;
+                        financeVariableListContainer.innerHTML += renderFinanceCard(f);
+                    });
+                } else {
+                    financeVariableListContainer.innerHTML = '<p class="card-subtitle">Nenhum gasto variável registrado.</p>';
+                }
+
+                totalIncome = finances.filter(f => f.type === 'income').reduce((sum, f) => sum + f.amount, 0);
+                totalExpense = totalFixed + totalVariable;
+
                 incomeElement.textContent = `R$ ${totalIncome.toFixed(2).replace('.', ',')}`;
+                fixedCostElement.textContent = `R$ ${totalFixed.toFixed(2).replace('.', ',')}`;
+                variableCostElement.textContent = `R$ ${totalVariable.toFixed(2).replace('.', ',')}`;
                 expenseElement.textContent = `R$ ${totalExpense.toFixed(2).replace('.', ',')}`;
                 balanceElement.textContent = `R$ ${(totalIncome - totalExpense).toFixed(2).replace('.', ',')}`;
-
+                
                 document.querySelectorAll('.edit-finance').forEach(btn => btn.addEventListener('click', (e) => {
                     const id = e.target.closest('.button-icon').dataset.id;
                     editFinance(id);
@@ -1718,10 +1945,11 @@
             };
             
             const deleteTask = (id) => {
+                const task = tasks.find(t => t.id === id);
                 if (confirm('Tem certeza que quer apagar essa tarefa? Não tem volta.')) {
                     tasks = tasks.filter(t => t.id !== id);
                     saveData();
-                    renderTasks(getActiveView());
+                    renderTasks(task.category);
                     renderCalendar(currentCalendarDate);
                 }
             };
@@ -2024,6 +2252,8 @@
                 elements.sectionView.style.display = 'none';
                 elements.mainMenu.style.display = 'block';
             });
+            
+            elements.buttons.closeOnboarding.addEventListener('click', () => hideModal('onboarding-modal'));
 
             document.querySelectorAll('.modal-overlay').forEach(modal => {
                 modal.addEventListener('click', (e) => {
@@ -2043,6 +2273,8 @@
             document.getElementById('cancel-countdown').addEventListener('click', () => hideModal('countdown-modal'));
             document.getElementById('closeHabitModal').addEventListener('click', () => hideModal('habit-modal'));
             document.getElementById('cancel-habit').addEventListener('click', () => hideModal('habit-modal'));
+            
+            elements.buttons.resetData.addEventListener('click', resetData);
 
             elements.forms.task.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -2189,13 +2421,15 @@
             
             elements.buttons.openSettings.addEventListener('click', () => showModal('settings-modal'));
             document.getElementById('closeSettingsModal').addEventListener('click', () => hideModal('settings-modal'));
-
+            
             // Inicialização
             loadData();
             renderCalendar(currentCalendarDate);
             renderStatsAndExport();
             requestNotificationPermission();
             tasks.forEach(scheduleReminder);
+            setInterval(showDynamicQuote, 7000); // Muda a frase a cada 7 segundos
+            showDynamicQuote(); // Mostra a primeira frase ao carregar
         });
     </script>
 </body>
